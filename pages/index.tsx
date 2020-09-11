@@ -119,8 +119,9 @@ const Home: React.FC = () => {
               <IconButton
                 aria-label="hide subject"
                 position="absolute"
-                right="40px"
-                icon="chevron-down"
+                right="5px"
+                top="0"
+                icon={subject.isShown ? "small-close" : "chevron-down"}
                 onClick={() => handleToggleSubject(subjectIndex)}
               />
             </Flex>
