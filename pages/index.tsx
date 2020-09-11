@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
-import Head from 'next/Head';
+import Head from 'next/head';
 import axios from 'axios';
 import { Flex, Text, Checkbox, IconButton } from '@chakra-ui/core';
 
