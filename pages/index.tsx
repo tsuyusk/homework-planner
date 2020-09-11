@@ -1,9 +1,8 @@
-import React, { useEffect, useCallback } from 'react';
-import Head from 'next/head';
-import axios from 'axios';
-import { Flex, Text, Checkbox, IconButton } from '@chakra-ui/core';
+import React, { useEffect, useCallback } from "react";
+import Head from "next/head";
+import { Flex, Text, Checkbox, IconButton } from "@chakra-ui/core";
 
-import useStorageState from '../hooks/useStorageState';
+import useStorageState from "../hooks/useStorageState";
 
 interface Subject {
   id: string;
@@ -20,14 +19,16 @@ interface Subject {
 const Home: React.FC = () => {
   const [subjects, setSubjects] = useStorageState<Subject[]>(
     [],
-    '@HomeworkPlanner/subjects',
+    "@HomeworkPlanner/subjects"
   );
 
   useEffect(() => {
     if (subjects.length === 0) {
-      axios.get<Subject[]>('/api/subjects').then(response => {
-        setSubjects(response.data);
-      });
+      fetch("/api/subjects")
+        .then((response) => response.json())
+        .then((data) => {
+          setSubjects(data);
+        });
     }
   }, []);
 
@@ -38,7 +39,7 @@ const Home: React.FC = () => {
 
       setSubjects(updatedSubjects);
     },
-    [subjects],
+    [subjects]
   );
 
   const toggleCheckWeekCheckbox = useCallback(
@@ -50,7 +51,7 @@ const Home: React.FC = () => {
 
       setSubjects(updatedSubjects);
     },
-    [subjects],
+    [subjects]
   );
 
   const handleToggleSubject = useCallback(
@@ -61,7 +62,7 @@ const Home: React.FC = () => {
 
       setSubjects(updatedSubjects);
     },
-    [subjects],
+    [subjects]
   );
 
   return (
@@ -79,14 +80,14 @@ const Home: React.FC = () => {
       <Flex
         height="100%"
         width="600px"
-        margin={['0 auto']}
+        margin={["0 auto"]}
         align="center"
         justify="center"
         flexDir="column"
       >
         {subjects.map((subject, subjectIndex) => (
           <Flex
-            marginTop={subjectIndex !== 0 && '20px'}
+            marginTop={subjectIndex !== 0 && "20px"}
             width="100%"
             padding="18px 4px"
             align="center"
@@ -103,7 +104,7 @@ const Home: React.FC = () => {
               padding="8px 0"
             >
               <Text
-                textDecoration={subject.isDone && 'line-through'}
+                textDecoration={subject.isDone && "line-through"}
                 fontWeight="500"
                 fontSize="xl"
               >
@@ -135,18 +136,18 @@ const Home: React.FC = () => {
               >
                 {subject.weeks.map((week, weekIndex) => (
                   <Flex
-                    marginTop={weekIndex !== 0 && '16px'}
+                    marginTop={weekIndex !== 0 && "16px"}
                     display="flex"
                     alignItems="center"
                     key={week.id}
                   >
                     <Text
                       textDecoration={
-                        (subject.isDone && 'line-through') ||
-                        (week.isDone && 'line-through')
+                        (subject.isDone && "line-through") ||
+                        (week.isDone && "line-through")
                       }
                     >
-                      Semana {week.number}:{' '}
+                      Semana {week.number}:{" "}
                     </Text>
                     <Checkbox
                       onChange={() =>

@@ -12,7 +12,6 @@
     "@emotion/core": "^10.0.35",
     "@emotion/styled": "^10.0.27",
     "@vercel/node": "^1.8.2",
-    "axios": "^0.20.0",
     "emotion-theming": "^10.0.27",
     "next": "9.5.3",
     "react": "16.13.1",
