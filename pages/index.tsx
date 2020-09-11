@@ -99,10 +99,15 @@ const Home: React.FC = () => {
               position="relative"
               bg="gray.100"
               align="center"
-              justify="center"
               width="82%"
-              padding="8px 0"
+              padding="12px 8px"
             >
+              <Checkbox
+                bg="white"
+                marginRight="10px"
+                isChecked={subject.isDone}
+                onChange={() => toggleCheckTitleCheckbox(subjectIndex)}
+              />
               <Text
                 textDecoration={subject.isDone && "line-through"}
                 fontWeight="500"
@@ -110,16 +115,10 @@ const Home: React.FC = () => {
               >
                 {subject.title}
               </Text>
-              <Checkbox
-                bg="white"
-                marginLeft="10px"
-                isChecked={subject.isDone}
-                onChange={() => toggleCheckTitleCheckbox(subjectIndex)}
-              />
               <IconButton
                 aria-label="hide subject"
                 position="absolute"
-                right="5px"
+                right="0"
                 top="0"
                 icon={subject.isShown ? "small-close" : "chevron-down"}
                 onClick={() => handleToggleSubject(subjectIndex)}
@@ -128,9 +127,9 @@ const Home: React.FC = () => {
             {subject.isShown && (
               <Flex
                 bg="gray.50"
-                align="center"
                 justify="space-around"
                 width="80%"
+                align="center"
                 flexDir="column"
                 padding="8px 0"
                 min-height="130px"
@@ -138,25 +137,25 @@ const Home: React.FC = () => {
                 {subject.weeks.map((week, weekIndex) => (
                   <Flex
                     marginTop={weekIndex !== 0 && "16px"}
+                    width="80%"
                     display="flex"
-                    alignItems="center"
                     key={week.id}
                   >
+                    <Checkbox
+                      onChange={() =>
+                        toggleCheckWeekCheckbox(subjectIndex, weekIndex)
+                      }
+                      isChecked={subject.isDone || week.isDone}
+                      marginRight="10px"
+                    />
                     <Text
                       textDecoration={
                         (subject.isDone && "line-through") ||
                         (week.isDone && "line-through")
                       }
                     >
-                      Semana {week.number}:{" "}
+                      Semana {week.number}
                     </Text>
-                    <Checkbox
-                      onChange={() =>
-                        toggleCheckWeekCheckbox(subjectIndex, weekIndex)
-                      }
-                      isChecked={subject.isDone || week.isDone}
-                      marginLeft="10px"
-                    />
                   </Flex>
                 ))}
               </Flex>
