@@ -11,7 +11,7 @@ interface Subject {
   isShown: boolean;
   weeks: Array<{
     id: string;
-    number: number;
+    number: string;
     isDone: boolean;
   }>;
 }
@@ -154,7 +154,7 @@ const Home: React.FC = () => {
                         (week.isDone && "line-through")
                       }
                     >
-                      Semana {week.number}
+                      {week.number} Week
                     </Text>
                   </Flex>
                 ))}

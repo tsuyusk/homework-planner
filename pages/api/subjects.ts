@@ -1,5 +1,5 @@
-import { NowRequest, NowResponse } from '@vercel/node';
-import { v4 as uuid } from 'uuid';
+import { NowRequest, NowResponse } from "@vercel/node";
+import { v4 as uuid } from "uuid";
 
 interface Subject {
   id: string;
@@ -8,7 +8,7 @@ interface Subject {
   isShown: boolean;
   weeks: Array<{
     id: string;
-    number: number;
+    number: string;
     isDone: boolean;
   }>;
 }
@@ -17,22 +17,22 @@ export default (request: NowRequest, response: NowResponse) => {
   const weeks = [
     {
       id: uuid(),
-      number: 1,
+      number: "1st",
       isDone: false,
     },
     {
       id: uuid(),
-      number: 2,
+      number: "2nd",
       isDone: false,
     },
     {
       id: uuid(),
-      number: 3,
+      number: "3rd",
       isDone: false,
     },
     {
       id: uuid(),
-      number: 4,
+      number: "4th",
       isDone: false,
     },
   ];
@@ -40,56 +40,63 @@ export default (request: NowRequest, response: NowResponse) => {
   const subjects: Subject[] = [
     {
       id: uuid(),
-      title: 'Português',
+      title: "Portuguese",
       isDone: false,
       isShown: true,
       weeks,
     },
     {
       id: uuid(),
-      title: 'Matemática',
+      title: "Math",
       isDone: false,
       isShown: true,
       weeks,
     },
     {
       id: uuid(),
-      title: 'Fisica',
+      title: "Physics",
       isDone: false,
       isShown: true,
       weeks,
     },
     {
       id: uuid(),
-      title: 'Geografia',
+      title: "Geography",
       isDone: false,
       isShown: true,
       weeks,
     },
     {
       id: uuid(),
-      title: 'Química',
+      title: "Chemistry",
       isDone: false,
       isShown: true,
       weeks,
     },
     {
       id: uuid(),
-      title: 'História',
+      title: "History",
       isDone: false,
       isShown: true,
       weeks,
     },
     {
       id: uuid(),
-      title: 'Sociologia',
+      title: "Sociology",
       isDone: false,
       isShown: true,
       weeks,
     },
     {
       id: uuid(),
-      title: 'Artes',
+      title: "Arts",
+      isDone: false,
+      isShown: true,
+      weeks,
+    },
+    {
+      id: uuid(),
+      title: "English",
       isDone: false,
       isShown: true,
       weeks,
