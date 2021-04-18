@@ -212,12 +212,12 @@ const Home: React.FC = () => {
           flexDir="column"
           justify="center"
         >
-          <Flex
-            position="relative"
-            bg="gray.100"
-            align="center"
-            width="82%"
-            padding="12px 8px"
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              width: '82%',
+            }}
           >
             <Flex
               background="#fff"
@@ -239,7 +239,7 @@ const Home: React.FC = () => {
                 height="350px"
               />
             </Flex>
-          </Flex>
+          </div>
         </Flex>
       </Flex>
     </Flex>
