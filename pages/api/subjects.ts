@@ -1,107 +1,38 @@
 import { NowRequest, NowResponse } from "@vercel/node";
 import { v4 as uuid } from "uuid";
 
+interface Week {
+  id: string;
+  label: string;
+  isDone: boolean;
+}
+
 interface Subject {
   id: string;
   title: string;
   isDone: boolean;
   isShown: boolean;
-  weeks: Array<{
-    id: string;
-    number: string;
-    isDone: boolean;
-  }>;
+  weeks: Week[];
 }
 
 export default (request: NowRequest, response: NowResponse) => {
-  const weeks = [
-    {
-      id: uuid(),
-      number: "1st",
-      isDone: false,
-    },
-    {
-      id: uuid(),
-      number: "2nd",
-      isDone: false,
-    },
-    {
-      id: uuid(),
-      number: "3rd",
-      isDone: false,
-    },
-    {
-      id: uuid(),
-      number: "4th",
-      isDone: false,
-    },
-  ];
+
+  const weeks: Week[] = ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4', 'Atividade 1', 'Atividade 2', 'Atividade 3', 'Atividade 4', 'Avaliação 5,0 Pontos', 'Bimestral'].map(item => ({
+    id: uuid(),
+    label: item,
+    isDone: false,
+  }));
+
 
   const subjects: Subject[] = [
-    {
-      id: uuid(),
-      title: "Portuguese",
-      isDone: false,
-      isShown: true,
-      weeks,
-    },
-    {
-      id: uuid(),
-      title: "Math",
-      isDone: false,
-      isShown: true,
-      weeks,
-    },
-    {
-      id: uuid(),
-      title: "Physics",
-      isDone: false,
-      isShown: true,
-      weeks,
-    },
-    {
-      id: uuid(),
-      title: "Geography",
-      isDone: false,
-      isShown: true,
-      weeks,
-    },
-    {
-      id: uuid(),
-      title: "Chemistry",
-      isDone: false,
-      isShown: true,
-      weeks,
-    },
-    {
-      id: uuid(),
-      title: "History",
-      isDone: false,
-      isShown: true,
-      weeks,
-    },
-    {
-      id: uuid(),
-      title: "Sociology",
-      isDone: false,
-      isShown: true,
-      weeks,
-    },
-    {
-      id: uuid(),
-      title: "Arts",
-      isDone: false,
-      isShown: true,
-      weeks,
-    },
-    {
-      id: uuid(),
-      title: "English",
-      isDone: false,
-      isShown: true,
-      weeks,
-    },
-  ];
+    'Português', 'Inglês', 'História', 'Geografia', 'Matemática', 'Fisica', 'Quimica', 'Arte', 'Filosofia', 'Educação Física',
+  ].map(item => ({
+    id: uuid(),
+    title: item,
+    isDone: false,
+    isShown: false,
+    weeks,
+  }));
 
   return response.json(subjects);
 };

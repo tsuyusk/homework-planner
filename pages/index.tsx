@@ -1,25 +1,34 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import Head from "next/head";
-import { Flex, Text, Checkbox, IconButton } from "@chakra-ui/core";
+import { Flex, Text, Checkbox, IconButton, Button, Textarea, Box } from "@chakra-ui/core";
 
 import useStorageState from "../hooks/useStorageState";
+
+interface Week {
+  id: string;
+  label: string;
+  isDone: boolean;
+}
 
 interface Subject {
   id: string;
   title: string;
   isDone: boolean;
   isShown: boolean;
-  weeks: Array<{
-    id: string;
-    number: string;
-    isDone: boolean;
-  }>;
+  weeks: Week[];
 }
 
 const Home: React.FC = () => {
+  const noteTextAreaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  const [note, setNote] = useStorageState<string>(
+    '',
+    "@HomeworkPlanner/note_ver_2",
+  );
+
   const [subjects, setSubjects] = useStorageState<Subject[]>(
     [],
-    "@HomeworkPlanner/subjects"
+    "@HomeworkPlanner/subjects_ver_2"
   );
 
   useEffect(() => {
@@ -30,40 +39,61 @@ const Home: React.FC = () => {
           setSubjects(data);
         });
     }
+
+    if (note.length !== 0) {
+      if (noteTextAreaRef.current) {
+        const { scrollHeight } = noteTextAreaRef.current;
+
+        if (scrollHeight > 348) {
+          noteTextAreaRef.current.scrollTop = scrollHeight;
+        }
+      }
+    }
+  }, [subjects, note]);
+
+  const toggleCheckTitleCheckbox = useCallback((index: number) => {
+    setSubjects(state => {
+      const subject = state[index];
+
+      subject.isDone = !subject.isDone;
+
+      return [...state];
+    });
   }, []);
-
-  const toggleCheckTitleCheckbox = useCallback(
-    (index: number) => {
-      const updatedSubjects = [...subjects];
-      updatedSubjects[index].isDone = !updatedSubjects[index].isDone;
-
-      setSubjects(updatedSubjects);
-    },
-    [subjects]
-  );
 
   const toggleCheckWeekCheckbox = useCallback(
     (subjectIndex: number, weekIndex: number) => {
-      const updatedSubjects = [...subjects];
-      updatedSubjects[subjectIndex].weeks[weekIndex].isDone = !updatedSubjects[
-        subjectIndex
-      ].weeks[weekIndex].isDone;
+      setSubjects(state => {
+        const selectedWeek = state[subjectIndex].weeks[weekIndex];
 
-      setSubjects(updatedSubjects);
+        selectedWeek.isDone = !selectedWeek.isDone;
+
+        return [...state];
+      });
     },
-    [subjects]
+    [],
   );
 
   const handleToggleSubject = useCallback(
     (index: number) => {
-      const updatedSubjects = [...subjects];
+      setSubjects(state => {
+        const subject = state[index];
 
-      updatedSubjects[index].isShown = !updatedSubjects[index].isShown;
+        subject.isShown = !subject.isShown;
 
-      setSubjects(updatedSubjects);
+        return [...state];
+      });
     },
-    [subjects]
+    [],
   );
+
+  const handleReset = useCallback(() => {
+    fetch("/api/subjects")
+      .then(response => response.json())
+      .then(data => {
+        setSubjects(data);
+      });
+  }, []);
 
   return (
     <Flex
@@ -75,8 +105,9 @@ const Home: React.FC = () => {
       as="main"
     >
       <Head>
-        <title>Homework planner</title>
+        <title>Organizador para PET</title>
       </Head>
+
       <Flex
         height="100%"
         width="600px"
@@ -85,9 +116,15 @@ const Home: React.FC = () => {
         justify="center"
         flexDir="column"
       >
+        <Button
+          onClick={handleReset}
+          marginBottom="12px"
+        >
+          Resetar
+        </Button>
         {subjects.map((subject, subjectIndex) => (
           <Flex
-            marginTop={subjectIndex !== 0 && "20px"}
+            marginTop="20px"
             width="100%"
             padding="18px 4px"
             align="center"
@@ -137,6 +174,10 @@ const Home: React.FC = () => {
                 {subject.weeks.map((week, weekIndex) => (
                   <Flex
                     marginTop={weekIndex !== 0 && "16px"}
+                    marginBottom={
+                      weekIndex === 3 && "16px"
+                      || weekIndex === 7 && "16px"
+                    }
                     width="80%"
                     display="flex"
                     key={week.id}
@@ -154,7 +195,7 @@ const Home: React.FC = () => {
                         (week.isDone && "line-through")
                       }
                     >
-                      {week.number} Week
+                      {week.label}
                     </Text>
                   </Flex>
                 ))}
@@ -162,6 +203,44 @@ const Home: React.FC = () => {
             )}
           </Flex>
         ))}
+
+        <Flex
+          marginTop="20px"
+          width="100%"
+          padding="18px 4px"
+          align="center"
+          flexDir="column"
+          justify="center"
+        >
+          <Flex
+            position="relative"
+            bg="gray.100"
+            align="center"
+            width="82%"
+            padding="12px 8px"
+          >
+            <Flex
+              background="#fff"
+              width="100%"
+              flexDir="column"
+              align="flex-start"
+            >
+              <Text
+                fontWeight="500"
+                fontSize="xl"
+                marginBottom="12px"
+              >
+                Anotações
+              </Text>
+              <Textarea
+                ref={noteTextAreaRef}
+                value={note}
+                onChange={(event: any) => setNote(event.target.value)}
+                height="350px"
+              />
+            </Flex>
+          </Flex>
+        </Flex>
       </Flex>
     </Flex>
   );
