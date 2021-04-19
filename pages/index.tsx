@@ -1,8 +1,9 @@
 import React, { useRef, useEffect, useCallback } from "react";
 import Head from "next/head";
-import { Flex, Text, Checkbox, IconButton, Button, Textarea, Box } from "@chakra-ui/core";
+import { Flex, Text, Checkbox, IconButton, Button, Textarea } from "@chakra-ui/core";
 
 import useStorageState from "../hooks/useStorageState";
+import { NoteContainer } from "../styles/pages/Home";
 
 interface Week {
   id: string;
@@ -204,43 +205,21 @@ const Home: React.FC = () => {
           </Flex>
         ))}
 
-        <Flex
-          marginTop="20px"
-          width="100%"
-          padding="18px 4px"
-          align="center"
-          flexDir="column"
-          justify="center"
-        >
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              width: '82%',
-            }}
+        <NoteContainer>
+          <Text
+            fontWeight="500"
+            fontSize="xl"
+            marginBottom="12px"
           >
-            <Flex
-              background="#fff"
-              width="100%"
-              flexDir="column"
-              align="flex-start"
-            >
-              <Text
-                fontWeight="500"
-                fontSize="xl"
-                marginBottom="12px"
-              >
-                Anotações
-              </Text>
-              <Textarea
-                ref={noteTextAreaRef}
-                value={note}
-                onChange={(event: any) => setNote(event.target.value)}
-                height="350px"
-              />
-            </Flex>
-          </div>
-        </Flex>
+            Anotações
+            </Text>
+          <Textarea
+            ref={noteTextAreaRef}
+            value={note}
+            onChange={(event: any) => setNote(event.target.value)}
+            height="350px"
+          />
+        </NoteContainer>
       </Flex>
     </Flex>
   );
