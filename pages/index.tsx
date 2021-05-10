@@ -176,8 +176,8 @@ const Home: React.FC = () => {
                   <Flex
                     marginTop={weekIndex !== 0 && "16px"}
                     marginBottom={
-                      weekIndex === 3 && "16px"
-                      || weekIndex === 7 && "16px"
+                      weekIndex === 5 && "16px"
+                      || weekIndex === 9 && "16px"
                     }
                     width="80%"
                     display="flex"
