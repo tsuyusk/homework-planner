@@ -17,7 +17,7 @@ interface Subject {
 
 export default (request: NowRequest, response: NowResponse) => {
 
-  const weeks: Week[] = ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4', 'Atividade 1', 'Atividade 2', 'Atividade 3', 'Atividade 4', 'Avaliação 5,0 Pontos', 'Bimestral'].map(item => ({
+  const weeks: Week[] = ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4', 'Semana 5', 'Semana 6', 'Atividade 1', 'Atividade 2', 'Atividade 3', 'Atividade 4', 'Avaliação 5,0 Pontos', 'Bimestral'].map(item => ({
     id: uuid(),
     label: item,
     isDone: false,
